@@ -15,7 +15,7 @@ load_dotenv()
 
 # Define the database name and CSV file path
 DATABASE_NAME = 'NVDb.db'
-CSV_FILE = Path(__file__).parent / 'data/nvd_data/nvd_data.csv'
+CSV_FILE = Path(__file__).resolve().parent.parent.parent / '../data/nvd_data/nvd_data.csv'
 
 # Create a connection to the SQLite3 database using SQLAlchemy
 engine = create_engine(f'sqlite:///{DATABASE_NAME}')
@@ -23,7 +23,7 @@ metadata = MetaData()
 
 # Load the data from the CSV file into a pandas DataFrame
 csv_path = Path(CSV_FILE)
-df = pd.read_csv(csv_path, dtype=str)
+df = pd.read_csv(csv_path, dtype=str, quotechar='"', escapechar='\\', on_bad_lines='skip')
 logging.info(f"Data loaded from '{csv_path}' into DataFrame.")
 logging.info(f"First few rows of the DataFrame:\n{df.head()}")
 

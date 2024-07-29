@@ -24,6 +24,7 @@ ssl_context = ssl.create_default_context()
 ssl_context.check_hostname = False
 ssl_context.verify_mode = ssl.CERT_NONE
 
+
 async def fetch_data(session, url, params):
     headers = {
         'apiKey': NVD_API_KEY
@@ -34,6 +35,7 @@ async def fetch_data(session, url, params):
         print(f"Response status code: {response.status}")
         json_response = await response.json()
         return json_response
+
 
 async def extract_data(queue):
     start_index = 0
@@ -135,6 +137,7 @@ async def extract_data(queue):
 
     queue.put("DONE")
 
+
 def save_data_to_csv(queue, output_file):
     data_items = []
     while True:
@@ -153,6 +156,7 @@ def save_data_to_csv(queue, output_file):
         df.to_csv(output_file, mode='a', header=not os.path.exists(output_file), index=False)
         print(f"Remaining items saved to {output_file}")
 
+
 async def main():
     base_dir = Path(__file__).resolve().parent.parent.parent  # Adjust the path to the root of the project
     output_dir = base_dir / '../data/nvd_data'
@@ -166,6 +170,7 @@ async def main():
     await extract_data(queue)
     queue.put("DONE")
     writer_process.join()
+
 
 if __name__ == "__main__":
     asyncio.run(main())
