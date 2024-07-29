@@ -39,7 +39,7 @@ async def extract_data(queue):
     start_index = 0
     results_per_page = 2000
 
-    async with aiohttp.ClientSession() as session:
+    async with aiohttp.ClientSession(trust_env=True) as session:
         while True:
             params = {
                 'startIndex': start_index,
@@ -154,7 +154,7 @@ def save_data_to_csv(queue, output_file):
         print(f"Remaining items saved to {output_file}")
 
 async def main():
-    base_dir = Path(__file__).resolve().parent
+    base_dir = Path(__file__).resolve().parent.parent.parent  # Adjust the path to the root of the project
     output_dir = base_dir / 'data/nvd_data'
     output_dir.mkdir(parents=True, exist_ok=True)
 
