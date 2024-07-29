@@ -73,5 +73,5 @@ __pycache__/
 data/tenable_data/xml_files/*.xml
 data/tenable_data/parsed_xml_files/*.csv
 data/tenable_data/*.csv
-data/tenable_data/master
+!data/tenable_data/master/
 data/nvd_data/*.csv
