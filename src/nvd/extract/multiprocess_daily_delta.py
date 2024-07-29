@@ -26,6 +26,7 @@ ssl_context.verify_mode = ssl.CERT_NONE
 
 LAST_MODIFIED_FILE = 'nvd_daily_deltas.csv'
 
+
 def read_last_modified_date():
     if os.path.exists(LAST_MODIFIED_FILE):
         df = pd.read_csv(LAST_MODIFIED_FILE)
@@ -33,9 +34,11 @@ def read_last_modified_date():
             return df['last_modified'].iloc[0]
     return None
 
+
 def write_last_modified_date(last_modified):
     df = pd.DataFrame([{'last_modified': last_modified}])
     df.to_csv(LAST_MODIFIED_FILE, index=False)
+
 
 async def fetch_data(session, url, params):
     headers = {
@@ -47,6 +50,7 @@ async def fetch_data(session, url, params):
         print(f"Response status code: {response.status}")
         json_response = await response.json()
         return json_response
+
 
 async def extract_data(queue, base_url, params):
     start_index = 0
@@ -120,6 +124,7 @@ async def extract_data(queue, base_url, params):
 
     queue.put("DONE")
 
+
 def save_data_to_csv(queue, output_file):
     data_items = []
     while True:
@@ -138,9 +143,10 @@ def save_data_to_csv(queue, output_file):
         df.to_csv(output_file, mode='a', header=not os.path.exists(output_file), index=False)
         print(f"Remaining items saved to {output_file}")
 
+
 async def main():
     base_dir = Path(__file__).resolve().parent
-    output_dir = base_dir / 'data/nvd_data'
+    output_dir = base_dir / '../data/nvd_data'
     output_dir.mkdir(parents=True, exist_ok=True)
 
     output_file = output_dir / 'nvd_cve_data.csv'
@@ -166,6 +172,7 @@ async def main():
         if not df.empty:
             last_modified_date = df['Last Modified Date'].max()
             write_last_modified_date(last_modified_date)
+
 
 if __name__ == "__main__":
     asyncio.run(main())

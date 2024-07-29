@@ -155,7 +155,7 @@ def save_data_to_csv(queue, output_file):
 
 async def main():
     base_dir = Path(__file__).resolve().parent.parent.parent  # Adjust the path to the root of the project
-    output_dir = base_dir / 'data/nvd_data'
+    output_dir = base_dir / '../data/nvd_data'
     output_dir.mkdir(parents=True, exist_ok=True)
 
     output_file = output_dir / 'nvd_data.csv'
