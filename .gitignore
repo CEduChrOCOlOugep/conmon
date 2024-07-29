@@ -86,6 +86,7 @@ fabric.properties
 
 # environment files
 *.env
+*.venv
 
 # data files
 *.db
